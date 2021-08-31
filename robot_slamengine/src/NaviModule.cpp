@@ -16,15 +16,16 @@
 #include "slamengine/robot_slamengine.h"
 #include "NaviModule.h"
 
+using namespace slamengine;
+
 namespace ginger
 {
-
 NaviModule::NaviModule()
 {
   ROS_INFO("NaviModule initializing...");
   module_nh_ = std::make_shared<ros::NodeHandle>();
   v_servers_.push_back(module_nh_->advertiseService("StartMapping", &NaviModule::startMappingService, this));
-  RobotSlamEngine engin = RobotSlamEngine::getInstance();
+  RobotSlamEngine& engine = RobotSlamEngine::getInstance();
 /*
   ros::NodeHandle nh;
   nh.getParam("/moveSpeed/gearSpeed/high", d_gearSpeed[0]);
