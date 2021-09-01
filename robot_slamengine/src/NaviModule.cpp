@@ -16,16 +16,15 @@
 #include "slamengine/robot_slamengine.h"
 #include "NaviModule.h"
 
+using namespace ginger;
 using namespace slamengine;
 
-namespace ginger
-{
-NaviModule::NaviModule()
+NaviModule::NaviModule():engine_(RobotSlamEngine::getInstance())
 {
   ROS_INFO("NaviModule initializing...");
   module_nh_ = std::make_shared<ros::NodeHandle>();
   v_servers_.push_back(module_nh_->advertiseService("StartMapping", &NaviModule::startMappingService, this));
-  RobotSlamEngine& engine = RobotSlamEngine::getInstance();
+  v_servers_.push_back(module_nh_->advertiseService("SaveMap", &NaviModule::saveMapService, this));
 /*
   ros::NodeHandle nh;
   nh.getParam("/moveSpeed/gearSpeed/high", d_gearSpeed[0]);
@@ -134,6 +133,9 @@ NaviModule::~NaviModule()
 bool NaviModule::startMappingService(ginger_msgs::StartMappingRequest &req, ginger_msgs::StartMappingResponse &res)
 {
     ROS_INFO("NaviModule: start calling mapping service");
+    ERESULT result = engine_.startBuildMap();
+    res.result = result;
+    res.description = "Mapping Has Been Started, Don't Repeat";
 /*    if(cur_mode_ == MODE_MAPPING) {
         res.result = ginger_msgs::StartMappingResponse::REPEAT_CMD;
         res.description = "Mapping Has Been Started, Don't Repeat";
@@ -166,9 +168,15 @@ bool NaviModule::startMappingService(ginger_msgs::StartMappingRequest &req, ging
     return true;
 }
 
-/*
+
 bool NaviModule::saveMapService(ginger_msgs::SaveMapRequest &req, ginger_msgs::SaveMapResponse &res)
 {
+    ROS_INFO("NaviModule: save map service");
+    ERESULT result = engine_.stopBuildMap();
+    res.result = result;
+    res.description = "Cannot save map, because mapping not start";
+    return true;
+/*
     if(cur_mode_ != MODE_MAPPING) {
         res.result = ginger_msgs::SaveMapResponse::MAPPING_NOT_START;
         res.description = "Cannot save map, because mapping not start";
@@ -221,9 +229,9 @@ bool NaviModule::saveMapService(ginger_msgs::SaveMapRequest &req, ginger_msgs::S
         res.result = err;
         res.description = std::string("save map failed");
         return false;
-    }
+    }*/
 }
-
+/*
 bool NaviModule::loadMapService(ginger_msgs::LoadMapRequest &req, ginger_msgs::LoadMapResponse &res) {
     ROS_INFO("NaviModule: Start calling loadmap service");
     if(cur_mode_ == MODE_MAPPING) {
@@ -731,4 +739,3 @@ bool NaviModule::ChassisParamConfigCallback(
   return true;
 }
 */
-} // end_ns

@@ -22,6 +22,8 @@
 #include <ros/node_handle.h>
 
 #include "ginger_msgs/StartMapping.h"
+#include "ginger_msgs/SaveMap.h"
+
 /*
 #include <thread>
 
@@ -36,7 +38,6 @@
 #include "ginger_navigation/GingerNavi.h"
 #include "ginger_msgs/StartMapping.h"
 #include "ginger_msgs/LoadMap.h"
-#include "ginger_msgs/SaveMap.h"
 #include "ginger_msgs/CheckPose.h"
 #include "ginger_msgs/SetPose.h"
 #include "ginger_msgs/SetWorldPose.h"
@@ -53,6 +54,10 @@
 #include "tf/message_filter.h"
 #include "yaml-cpp/yaml.h"
 */
+namespace slamengine {
+class RobotSlamEngine;
+}
+
 namespace ginger
 {
 using RosNodeHandlePtr = std::shared_ptr<ros::NodeHandle>; 
@@ -63,8 +68,8 @@ public:
     ~NaviModule();
     // map service
     bool startMappingService(ginger_msgs::StartMappingRequest &req, ginger_msgs::StartMappingResponse &res);
-/*
     bool saveMapService(ginger_msgs::SaveMapRequest &req, ginger_msgs::SaveMapResponse &res);
+/*
     bool loadMapService(ginger_msgs::LoadMapRequest &req, ginger_msgs::LoadMapResponse &res);
     bool checkPoseService(ginger_msgs::CheckPoseRequest &req, ginger_msgs::CheckPoseResponse &res);
     bool setPoseService(ginger_msgs::SetPoseRequest &req, ginger_msgs::SetPoseResponse &res);
@@ -105,8 +110,10 @@ private:
     double harix_max_linear_vel_ = 0.0;
     double harix_max_rot_vel_ = 0.0;
     */
+private:
     std::vector<ros::ServiceServer> v_servers_;
     RosNodeHandlePtr module_nh_;
+    slamengine::RobotSlamEngine& engine_;
 };
 
 
