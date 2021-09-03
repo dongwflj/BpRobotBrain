@@ -8,22 +8,15 @@
 #ifndef _ROBOT_FSM_H_
 #define _ROBOT_FSM_H_
 
-#include "define.h"
-
 namespace slamengine
 {
 class RobotState;
+class IRobotCtrl;
 
-class RobotFsm {
+class IRobotFsm {
 public:
-    RobotFsm(RobotState *state);
-    virtual ~RobotFsm();
-    void TransitionTo(RobotState *state); 
-// Event
-    ERESULT startBuildMap();
-    ERESULT stopBuildMap();
-private:
-    RobotState *state_;
+    virtual void transitionTo(RobotState *state) = 0; 
+    virtual IRobotCtrl& getRobotCtrl() = 0; 
 };
 
 } // end_ns

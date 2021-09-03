@@ -9,6 +9,8 @@
 #include <ros/ros.h>
 #include "slamengine/robot_mapping_state.h"
 #include "slamengine/robot_idle_state.h"
+#include "slamengine/robot_fsm.h"
+#include "slamengine/robot_ctrl.h"
 
 namespace slamengine
 {
@@ -22,10 +24,26 @@ ERESULT RobotMappingState::startBuildMap() {
 ERESULT RobotMappingState::stopBuildMap() {
     ROS_INFO("RobotMappingState::stopBuildMap entry");
     // ToDo: stop map building logic
-    context_->TransitionTo(new RobotIdleState());    
+    context_->getRobotCtrl().stopBuildMap();
+    context_->transitionTo(new RobotIdleState());    
     ROS_INFO("RobotMappingState::stopBuildMap exit");
     return E_OK;
 }
+
+ERESULT RobotMappingState::pauseBuildMap() {
+    ROS_INFO("RobotMappingState::pauseBuildMap entry");
+    // ToDo: stop map building logic
+    ROS_INFO("RobotMappingState::pauseBuildMap exit");
+    return E_OK;
+}
+
+ERESULT RobotMappingState::resumeBuildMap() {
+    ROS_INFO("RobotMappingState::resumeBuildMap entry");
+    // ToDo: stop map building logic
+    ROS_INFO("RobotMappingState::resumeBuildMap exit");
+    return E_OK;
+}
+
 
 } // end_ns
 

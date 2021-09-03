@@ -23,5 +23,15 @@ ERESULT RobotState::stopBuildMap() {
     return E_BADSTATE;
 }
 
+ERESULT RobotState::pauseBuildMap() {
+    ROS_INFO("RobotState::pauseBuildMap trigger at error state");
+    return E_BADSTATE;
+}
+
+ERESULT RobotState::resumeBuildMap() {
+    ROS_INFO("RobotState::resumeBuildMap trigger at error state");
+    return E_BADSTATE;
+}
+
 } // end_ns
 

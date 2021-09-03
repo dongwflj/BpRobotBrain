@@ -12,6 +12,7 @@ typedef enum {
     E_OK = 0,
     E_FALSE = -1,
     E_BADSTATE = -2,
+    E_NOTSUPPORT = -3,
 //BuildMap
     E_BUILDMAPSUCCESS = 201,
     E_BUILDMAPFAILED = -201,

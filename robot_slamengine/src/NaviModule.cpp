@@ -16,66 +16,22 @@
 #include "slamengine/robot_slamengine.h"
 #include "NaviModule.h"
 
-using namespace ginger;
 using namespace slamengine;
+
+namespace ginger {
 
 NaviModule::NaviModule():engine_(RobotSlamEngine::getInstance())
 {
   ROS_INFO("NaviModule initializing...");
+  // Important init engine and ctrl interface
+  engine_.init(gliteCtrl_);
+  gliteCtrl_.setObserver(engine_);
   module_nh_ = std::make_shared<ros::NodeHandle>();
   v_servers_.push_back(module_nh_->advertiseService("StartMapping", &NaviModule::startMappingService, this));
   v_servers_.push_back(module_nh_->advertiseService("SaveMap", &NaviModule::saveMapService, this));
+  v_subs_.emplace_back(module_nh_->subscribe<ginger_msgs::BatteryState>(
+                "/BatteryState", 1, &NaviModule::batteryStateCallback, this));
 /*
-  ros::NodeHandle nh;
-  nh.getParam("/moveSpeed/gearSpeed/high", d_gearSpeed[0]);
-  nh.getParam("/moveSpeed/gearSpeed/middle", d_gearSpeed[1]);
-  nh.getParam("/moveSpeed/gearSpeed/low", d_gearSpeed[2]);
-  nh.getParam("/moveSpeed/turnSpeed/high", d_turnSpeed[0]);
-  nh.getParam("/moveSpeed/turnSpeed/middle", d_turnSpeed[1]);
-  nh.getParam("/moveSpeed/turnSpeed/low", d_turnSpeed[2]);
-  nh.getParam("/moveSpeedHari/gearSpeedCurr", i_gearSpeed_curr);
-  nh.getParam("/moveSpeedHari/turnSpeedCurr", i_turnSpeed_curr);
-
-  if (i_gearSpeed_curr < 1 || i_gearSpeed_curr > 3) {
-    i_gearSpeed_curr = 1;
-    ROS_ERROR(
-        "Navi: gearSpeedCurr abnormal, please check "
-        "~/ginlt_param/robot_config_hari.yaml");
-  }
-  else {
-      harix_max_linear_vel_ = d_gearSpeed[i_gearSpeed_curr - 1];
-  }
-
-  if (i_turnSpeed_curr < 1 || i_turnSpeed_curr > 3) {
-    i_turnSpeed_curr = 2;
-    ROS_ERROR(
-        "Navi: i_turnSpeed_curr abnormal, please check "
-        "~/ginlt_param/robot_config_hari.yaml");
-  }
-  else {
-      harix_max_rot_vel_ = d_turnSpeed[i_turnSpeed_curr - 1];
-  }
-
-  ROS_INFO("gearSpeed: high %.4f, middle %.4f, low %.4f", d_gearSpeed[0],
-           d_gearSpeed[1], d_gearSpeed[2]);
-  ROS_INFO("turnSpeed: high %.4f, middle %.4f, low %.4f", d_turnSpeed[0],
-           d_turnSpeed[1], d_turnSpeed[2]);
-  ROS_INFO("moveSpeedHari: gearSpeedCurr %d, turnSpeedCurr %d",
-           i_gearSpeed_curr, i_turnSpeed_curr);
-  ROS_INFO("Navi: p_navi_->setVel gearSpeed[%d] %.2f, turnSpeed[%d] %.2f",
-           i_gearSpeed_curr - 1, d_gearSpeed[i_gearSpeed_curr - 1],
-           i_turnSpeed_curr - 1, d_turnSpeed[i_turnSpeed_curr - 1]);
-
-    map_nh_ = std::make_shared<ros::NodeHandle>();
-    navi_nh_ = std::make_shared<ros::NodeHandle>();
-    module_nh_ = std::make_shared<ros::NodeHandle>();
-    param_nh_ = std::make_shared<ros::NodeHandle>();
-
-    tf2_buffer_ = std::make_shared<tf2_ros::Buffer>();
-    tf2_cast_ = std::make_shared<tf2_ros::TransformBroadcaster>();
-    tf2_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf2_buffer_);
-    rdm_pub_ = std::make_shared<ros::Publisher>(module_nh_->advertise<ginger_msgs::RdmAlarm>("rdm_alarm", 1, true));
-
     //ROS service
     v_servers_.push_back(module_nh_->advertiseService("StartMapping", &NaviModule::startMappingService, this));
     v_servers_.push_back(module_nh_->advertiseService("SaveMap", &NaviModule::saveMapService, this));
@@ -167,7 +123,6 @@ bool NaviModule::startMappingService(ginger_msgs::StartMappingRequest &req, ging
  */   
     return true;
 }
-
 
 bool NaviModule::saveMapService(ginger_msgs::SaveMapRequest &req, ginger_msgs::SaveMapResponse &res)
 {
@@ -739,3 +694,55 @@ bool NaviModule::ChassisParamConfigCallback(
   return true;
 }
 */
+void NaviModule::batteryStateCallback(
+    const ginger_msgs::BatteryState::ConstPtr &msg) {
+/*  battery_capacity_ = msg->dump_energy;
+
+  if (msg->chargeset_type == 1) {
+    if (msg->current > 0 && charging_state_ != DOCK_CHARGING) {
+      ROS_INFO("GingerNavi: dock charging start");
+      charging_state_ = DOCK_CHARGING;
+      onDockCharging();  // for rest robot pose
+      //如果当前有回桩充电的任务，则取消充电任务
+      std::string cur_state = navi_machine_->GetCurrent()->GetName();
+      if (cur_state == std::string("ACTIVE") && cur_goal_type_ == 2) {
+        machine_set_->Enqueue(std::make_shared<NaviEvent>(
+                NaviEventType::NAVI_CANCELLED, navi_machine_));
+        ROS_WARN("GingerNavi: robot is in dock, so cancel charge task");
+      }
+      else if (cur_state == std::string("DOCKING")) {
+        machine_set_->Enqueue(std::make_shared<NaviEvent>(
+                NaviEventType::DOCK_CANCEL, navi_machine_));
+        ROS_WARN("GingerNavi:  robot is in dock, so cancel docking");
+      }
+    }
+  } 
+  else if (msg->chargeset_type == 0) {
+    if (charging_state_ != LINE_CHARGING) {
+      charging_state_ = LINE_CHARGING;
+      ROS_INFO("GingerNavi: line charging start");
+
+      // 如果当前有导航任务在取消导航任务
+      std::string cur_state = navi_machine_->GetCurrent()->GetName();
+      if (cur_state == std::string("ACTIVE")) {
+        machine_set_->Enqueue(std::make_shared<NaviEvent>(
+                NaviEventType::NAVI_CANCELLED, navi_machine_));
+        ROS_WARN("GingerNavi: navigation task is cancelled by line charge");
+      }
+    }
+  } 
+  else {
+    if (charging_state_ == LINE_CHARGING) {
+      charging_state_ = NONE_CHARGING;
+      ROS_INFO("GingerNavi: line charging finished");
+    } else if (charging_state_ == DOCK_CHARGING) {
+      charging_state_ = NONE_CHARGING;
+      ROS_INFO("GingerNavi: dock charging finished");
+    } else {
+      // do nothing
+    }
+  }*/
+}
+
+
+}

@@ -23,6 +23,8 @@
 
 #include "ginger_msgs/StartMapping.h"
 #include "ginger_msgs/SaveMap.h"
+#include "ginger_msgs/BatteryState.h"
+#include "glite_ctrl.h"
 
 /*
 #include <thread>
@@ -69,6 +71,8 @@ public:
     // map service
     bool startMappingService(ginger_msgs::StartMappingRequest &req, ginger_msgs::StartMappingResponse &res);
     bool saveMapService(ginger_msgs::SaveMapRequest &req, ginger_msgs::SaveMapResponse &res);
+    
+    void batteryStateCallback(const ginger_msgs::BatteryState::ConstPtr &msg);
 /*
     bool loadMapService(ginger_msgs::LoadMapRequest &req, ginger_msgs::LoadMapResponse &res);
     bool checkPoseService(ginger_msgs::CheckPoseRequest &req, ginger_msgs::CheckPoseResponse &res);
@@ -82,38 +86,13 @@ public:
 
     bool ChassisParamConfigCallback(ginger_msgs::GrpcCommonResp::Request &req,
                                     ginger_msgs::GrpcCommonResp::Response &res);
+                                    */
 private:
-    int loadMapImpl(std::string map_name);
-
-    RosNodeHandlePtr map_nh_;
-    RosNodeHandlePtr navi_nh_;
     RosNodeHandlePtr module_nh_;
-    RosNodeHandlePtr param_nh_;
-    std::vector<ros::ServiceServer> v_servers_;
-    ros::ServiceClient slam_model_client_;
-    std::shared_ptr<ros::Publisher> rdm_pub_ = nullptr;
-    std::shared_ptr<tf2_ros::Buffer> tf2_buffer_ = nullptr;
-    std::shared_ptr<tf2_ros::TransformBroadcaster> tf2_cast_ = nullptr;
-    std::shared_ptr<tf2_ros::TransformListener> tf2_listener_ = nullptr;
-
-    std::shared_ptr<GingerMap> p_map_ = nullptr;
-    std::shared_ptr<GingerNavi> p_navi_ = nullptr;
-    double d_gearSpeed[3];
-    double d_turnSpeed[3];
-    int i_gearSpeed_curr;
-    int i_turnSpeed_curr;
-    geometry_msgs::PoseStamped cur_lift_in_pose_;
-    void resetRobotPose();
-    bool navi_vel_set();
-    int ParamUpdate();
-
-    double harix_max_linear_vel_ = 0.0;
-    double harix_max_rot_vel_ = 0.0;
-    */
-private:
-    std::vector<ros::ServiceServer> v_servers_;
-    RosNodeHandlePtr module_nh_;
+    GliteCtrl gliteCtrl_;
     slamengine::RobotSlamEngine& engine_;
+    std::vector<ros::ServiceServer> v_servers_;
+    std::vector<ros::Subscriber> v_subs_;
 };
 
 

@@ -19,6 +19,8 @@ public:
 
     ERESULT startBuildMap();
     ERESULT stopBuildMap();
+    ERESULT pauseBuildMap();
+    ERESULT resumeBuildMap();
 };
 
 } // end_ns

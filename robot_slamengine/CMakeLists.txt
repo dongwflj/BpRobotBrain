@@ -122,7 +122,7 @@ include_directories(
 ## Declare a C++ library
 add_library(robot_slamengine
    src/slamengine/robot_slamengine.cpp
-   src/slamengine/robot_fsm.cpp
+#   src/slamengine/robot_fsm.cpp
    src/slamengine/robot_state.cpp
    src/slamengine/robot_idle_state.cpp
    src/slamengine/robot_mapping_state.cpp
@@ -139,6 +139,7 @@ add_library(robot_slamengine
 add_executable(${PROJECT_NAME}_node 
     src/robot_slamengine_node.cpp
     src/NaviModule.cpp
+    src/glite_ctrl.cpp
 )
 
 ## Rename C++ executable without prefix
