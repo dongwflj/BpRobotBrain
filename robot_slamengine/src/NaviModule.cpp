@@ -24,7 +24,7 @@ NaviModule::NaviModule():engine_(RobotSlamEngine::getInstance())
 {
   ROS_INFO("NaviModule initializing...");
   // Important init engine and ctrl interface
-  engine_.init(gliteCtrl_);
+  engine_.init(gliteCtrl_, *this);
   gliteCtrl_.setObserver(engine_);
   module_nh_ = std::make_shared<ros::NodeHandle>();
   v_servers_.push_back(module_nh_->advertiseService("StartMapping", &NaviModule::startMappingService, this));
@@ -74,18 +74,17 @@ NaviModule::NaviModule():engine_(RobotSlamEngine::getInstance())
 
 NaviModule::~NaviModule()
 {
-    /*
-    if(p_map_) {
-        p_map_.reset();
-        p_map_ = nullptr;
-    }
-    if(p_navi_) {
-        p_navi_.reset();
-        p_navi_ = nullptr;
-    }
-    */
 }
 
+ERESULT NaviModule::onNaviDone() {
+}
+
+ERESULT NaviModule::onNaviActive() {
+}
+
+ERESULT NaviModule::onNaviProgress() {
+}
+ 
 bool NaviModule::startMappingService(ginger_msgs::StartMappingRequest &req, ginger_msgs::StartMappingResponse &res)
 {
     ROS_INFO("NaviModule: start calling mapping service");
@@ -696,6 +695,7 @@ bool NaviModule::ChassisParamConfigCallback(
 */
 void NaviModule::batteryStateCallback(
     const ginger_msgs::BatteryState::ConstPtr &msg) {
+	engine_.NotifyChargingEvent();
 /*  battery_capacity_ = msg->dump_energy;
 
   if (msg->chargeset_type == 1) {

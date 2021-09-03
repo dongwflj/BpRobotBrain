@@ -25,7 +25,23 @@ public:
     ERESULT resumeBuildMap();
     ERESULT saveMap();
     ERESULT loadMap(); 
-
+	// Navi
+    ERESULT StartNavi(){};
+    ERESULT StopNavi(){};
+    ERESULT PauseNavi(){};
+    ERESULT ResumeNavi(){};
+	
+    ERESULT SetPose(){};
+    ERESULT SetWorldPose(){};
+    ERESULT SetRobotVelThreshold(){};
+    ERESULT Move(){};
+	//Event
+    ERESULT NotifyDropEvent(){};
+    ERESULT NotifyCollisionEvent(){};
+    ERESULT NotifyEStopEvent(){};
+    ERESULT NotifyDockStateEvent(){};
+    ERESULT NotifyChargingEvent(){};
+    ERESULT NotifyCriticalHwErrEvent(){};
     //IRobotObserver
     ERESULT onNaviDone();
     ERESULT onNaviActive();
@@ -33,21 +49,22 @@ public:
     //IRobotFsm 
     void transitionTo(RobotState *state); 
     IRobotCtrl& getRobotCtrl(); 
+    IRobotObserver& getRobotObserver(); 
 public:
     static RobotSlamEngine& getInstance() {
         static RobotSlamEngine instance;
         return instance;
     }
-    // Must call before any func call
-    void init(IRobotCtrl& robotCtrl);
+    // Must call before any func call once you get instance
+    void init(IRobotCtrl& robotCtrl, IRobotObserver& robotObserver);
 private:
     RobotSlamEngine();
     virtual ~RobotSlamEngine();
     RobotSlamEngine(const RobotSlamEngine&) {};
     RobotSlamEngine& operator=(const RobotSlamEngine&) {};
-    //RobotFsm *fsm_;
     RobotState *state_;
     IRobotCtrl *robotCtrl_;
+    IRobotObserver *robotObserver_;
 };
 
 } // end_ns

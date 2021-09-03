@@ -18,6 +18,9 @@ public:
     virtual ~RobotMotioningState() {}
 
     ERESULT startBuildMap();
+	ERESULT onNaviDone();
+    ERESULT onNaviActive();
+    ERESULT onNaviProgress();
 };
 
 } // end_ns

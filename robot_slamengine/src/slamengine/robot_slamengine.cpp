@@ -5,7 +5,7 @@
 * author: Ewen Dong
 * Created Date: 2021-08-30
 */
-
+#include <stdexcept>
 #include <ros/ros.h>
 
 #include "slamengine/robot_slamengine.h"
@@ -26,8 +26,9 @@ RobotSlamEngine::~RobotSlamEngine() {
     ROS_INFO("RobotSlamEngine exit");
 }
 
-void RobotSlamEngine::init(IRobotCtrl& robotCtrl) {
+void RobotSlamEngine::init(IRobotCtrl& robotCtrl, IRobotObserver& robotObserver) {
     robotCtrl_ = &robotCtrl;
+    robotObserver_ = &robotObserver;
     transitionTo(new RobotIdleState());
 }
 
@@ -43,7 +44,17 @@ void RobotSlamEngine::transitionTo(RobotState *state) {
 }
 
 IRobotCtrl& RobotSlamEngine::getRobotCtrl() {
+	if(robotCtrl_ == nullptr) {
+		throw std::invalid_argument("Invalid 'robotCtrl' pointer."); 
+	}
     return *robotCtrl_;
+}
+
+IRobotObserver& RobotSlamEngine::getRobotObserver() {
+	if(robotObserver_ == nullptr) {
+		throw std::invalid_argument("Invalid 'robotObserver' pointer."); 
+	}
+    return *robotObserver_;
 }
 
 ERESULT RobotSlamEngine::startBuildMap() {

@@ -24,6 +24,10 @@ public:
     virtual ERESULT stopBuildMap();
     virtual ERESULT pauseBuildMap();
     virtual ERESULT resumeBuildMap();
+    
+	virtual ERESULT onNaviDone();
+    virtual ERESULT onNaviActive();
+    virtual ERESULT onNaviProgress();
  
 protected:
     IRobotFsm *context_;

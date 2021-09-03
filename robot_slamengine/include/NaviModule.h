@@ -25,6 +25,7 @@
 #include "ginger_msgs/SaveMap.h"
 #include "ginger_msgs/BatteryState.h"
 #include "glite_ctrl.h"
+#include "slamengine/robot_observer.h"
 
 /*
 #include <thread>
@@ -63,7 +64,7 @@ class RobotSlamEngine;
 namespace ginger
 {
 using RosNodeHandlePtr = std::shared_ptr<ros::NodeHandle>; 
-class NaviModule
+class NaviModule : public IRobotObserver
 {
 public:
     NaviModule();
@@ -87,6 +88,11 @@ public:
     bool ChassisParamConfigCallback(ginger_msgs::GrpcCommonResp::Request &req,
                                     ginger_msgs::GrpcCommonResp::Response &res);
                                     */
+    //IRobotObserver
+    ERESULT onNaviDone();
+    ERESULT onNaviActive();
+    ERESULT onNaviProgress();
+ 
 private:
     RosNodeHandlePtr module_nh_;
     GliteCtrl gliteCtrl_;

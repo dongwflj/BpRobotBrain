@@ -12,11 +12,13 @@ namespace slamengine
 {
 class RobotState;
 class IRobotCtrl;
+class IRobotObserver;
 
 class IRobotFsm {
 public:
     virtual void transitionTo(RobotState *state) = 0; 
     virtual IRobotCtrl& getRobotCtrl() = 0; 
+    virtual IRobotObserver& getRobotObserver() = 0; 
 };
 
 } // end_ns
