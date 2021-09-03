@@ -122,10 +122,14 @@ include_directories(
 ## Declare a C++ library
 add_library(robot_slamengine
    src/slamengine/robot_slamengine.cpp
-#   src/slamengine/robot_fsm.cpp
    src/slamengine/robot_state.cpp
    src/slamengine/robot_idle_state.cpp
    src/slamengine/robot_mapping_state.cpp
+   src/slamengine/robot_charging_state.cpp
+   src/slamengine/robot_motioning_state.cpp
+   src/slamengine/robot_motionpause_state.cpp
+   src/slamengine/robot_teleoping_state.cpp
+   src/slamengine/robot_stop_state.cpp
 )
 
 ## Add cmake target dependencies of the library
