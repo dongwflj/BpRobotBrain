@@ -18,7 +18,6 @@ ERESULT GliteCtrl::startBuildMap() {
 
 ERESULT GliteCtrl::stopBuildMap() {
     ROS_INFO("GliteCtrl::stopBuildMap entry");
-    observer_->onNaviDone();
     ROS_INFO("GliteCtrl::stopBuildMap exit");
     return E_OK;
 }
@@ -37,6 +36,22 @@ ERESULT GliteCtrl::saveMap() {
 
 ERESULT GliteCtrl::loadMap() {
     return E_NOTSUPPORT;
+}
+
+ERESULT GliteCtrl::StartNavi(ENAVITYPE type) {
+    switch(type) {
+    case NAVI_GOCHARGE:
+        //TODO:Charging behavior
+        observer_->onNaviDone();
+        break;
+    case NAVI_UNCHARGE:
+        //TODO:Run undocking behavior then navi
+        observer_->onNaviDone();
+        break;
+    default:
+        break;
+    }
+    return E_OK;
 }
 
 ERESULT GliteCtrl::setObserver(IRobotObserver& observer) {

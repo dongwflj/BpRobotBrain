@@ -25,6 +25,12 @@ public:
     virtual ERESULT pauseBuildMap();
     virtual ERESULT resumeBuildMap();
     
+	// Navi
+    ERESULT StartNavi(ENAVITYPE type);
+    ERESULT StopNavi();
+    ERESULT PauseNavi();
+    ERESULT ResumeNavi();
+
 	virtual ERESULT onNaviDone();
     virtual ERESULT onNaviActive();
     virtual ERESULT onNaviProgress();

@@ -85,6 +85,23 @@ ERESULT RobotSlamEngine::resumeBuildMap() {
     return res;
 }
 
+ERESULT RobotSlamEngine::StartNavi(ENAVITYPE type) {
+    ERESULT res = state_->StartNavi(type);
+    return E_OK;
+
+}
+ERESULT RobotSlamEngine::StopNavi() {
+    return E_OK;
+}
+
+ERESULT RobotSlamEngine::PauseNavi() {
+    return E_OK;
+}
+
+ERESULT RobotSlamEngine::ResumeNavi() {
+    return E_OK;
+}
+	
 ERESULT RobotSlamEngine::onNaviDone() {
     ROS_INFO("RobotSlamEngine::onNaviDone entry");
     return E_OK;

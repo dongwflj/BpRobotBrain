@@ -26,10 +26,10 @@ public:
     ERESULT saveMap();
     ERESULT loadMap(); 
 	// Navi
-    ERESULT StartNavi(){};
-    ERESULT StopNavi(){};
-    ERESULT PauseNavi(){};
-    ERESULT ResumeNavi(){};
+    ERESULT StartNavi(ENAVITYPE type);
+    ERESULT StopNavi();
+    ERESULT PauseNavi();
+    ERESULT ResumeNavi();
 	
     ERESULT SetPose(){};
     ERESULT SetWorldPose(){};

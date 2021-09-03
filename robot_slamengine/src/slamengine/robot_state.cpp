@@ -33,6 +33,22 @@ ERESULT RobotState::resumeBuildMap() {
     return E_BADSTATE;
 }
 
+ERESULT RobotState::StartNavi(ENAVITYPE type) {
+    return E_BADSTATE;
+}
+
+ERESULT RobotState::StopNavi() {
+    return E_BADSTATE;
+}
+
+ERESULT RobotState::PauseNavi() {
+    return E_BADSTATE;
+}
+
+ERESULT RobotState::ResumeNavi() {
+    return E_BADSTATE;
+}
+	
 ERESULT RobotState::onNaviDone() {
     ROS_INFO("RobotState::onNaviDone trigger at error state");
 	return E_BADSTATE; 
@@ -47,5 +63,6 @@ ERESULT RobotState::onNaviProgress() {
     ROS_INFO("RobotState::onNaviProgress trigger at error state");
 	return E_BADSTATE; 
 }
+
 } // end_ns
 

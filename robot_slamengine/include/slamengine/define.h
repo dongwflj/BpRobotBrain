@@ -24,4 +24,12 @@ typedef enum {
     E_SAVEMAP_PATH_UNVALID = -303
 } ERESULT;
 
+typedef enum {
+    NAVI_NORMAL = 1,
+    NAVI_GOCHARGE,
+    NAVI_UNCHARGE,
+    NAVI_GOINLIFT,
+    NAVI_GOOUTLIFT
+} ENAVITYPE;
+ 
 #endif
