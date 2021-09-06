@@ -15,9 +15,17 @@ namespace slamengine
 
 class RobotTeleOpingState : public RobotState {
 public:
-    virtual ~RobotTeleOpingState() {}
-
+    static RobotState& getInstance() {
+        static RobotTeleOpingState instance;
+        return instance;
+    }
+ 
     ERESULT startBuildMap();
+private:
+    RobotTeleOpingState() {};
+    virtual ~RobotTeleOpingState() {};
+    RobotTeleOpingState(const RobotTeleOpingState&) {};
+    RobotTeleOpingState& operator=(const RobotTeleOpingState&) {};
 };
 
 } // end_ns

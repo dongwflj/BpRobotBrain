@@ -38,8 +38,13 @@ ERESULT GliteCtrl::loadMap() {
     return E_NOTSUPPORT;
 }
 
-ERESULT GliteCtrl::StartNavi(ENAVITYPE type) {
+ERESULT GliteCtrl::startNavi(ENAVITYPE type) {
+    ROS_INFO("GliteCtrl::startNavi entry");
     switch(type) {
+    case NAVI_NORMAL:
+        //TODO:
+        observer_->onNaviDone();
+        break;
     case NAVI_GOCHARGE:
         //TODO:Charging behavior
         observer_->onNaviDone();
@@ -51,6 +56,7 @@ ERESULT GliteCtrl::StartNavi(ENAVITYPE type) {
     default:
         break;
     }
+    ROS_INFO("GliteCtrl::startNavi exit");
     return E_OK;
 }
 

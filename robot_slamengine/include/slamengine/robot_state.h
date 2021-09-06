@@ -12,11 +12,11 @@
 
 namespace slamengine
 {
-class IRobotFsm;
+class RobotFsm;
 class RobotState {
 public:
     virtual ~RobotState() {}
-    void set_context(IRobotFsm *context) {
+    void set_context(RobotFsm *context) {
         this->context_ = context;
     }
 
@@ -26,17 +26,17 @@ public:
     virtual ERESULT resumeBuildMap();
     
 	// Navi
-    ERESULT StartNavi(ENAVITYPE type);
-    ERESULT StopNavi();
-    ERESULT PauseNavi();
-    ERESULT ResumeNavi();
+    virtual ERESULT startNavi(ENAVITYPE type);
+    virtual ERESULT stopNavi();
+    virtual ERESULT pauseNavi();
+    virtual ERESULT resumeNavi();
 
-	virtual ERESULT onNaviDone();
-    virtual ERESULT onNaviActive();
-    virtual ERESULT onNaviProgress();
+    virtual ERESULT naviDoneEvent();
+    virtual ERESULT naviActiveEvent();
+    virtual ERESULT naviProgressEvent();
  
 protected:
-    IRobotFsm *context_;
+    RobotFsm *context_;
 };
 
 } // end_ns

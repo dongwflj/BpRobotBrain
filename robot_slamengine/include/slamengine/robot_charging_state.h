@@ -15,9 +15,17 @@ namespace slamengine
 
 class RobotChargingState : public RobotState {
 public:
-    virtual ~RobotChargingState() {}
-
+    static RobotState& getInstance() {
+        static RobotChargingState instance;
+        return instance;
+    }
+ 
     ERESULT startBuildMap();
+private:
+    RobotChargingState() {};
+    virtual ~RobotChargingState() {};
+    RobotChargingState(const RobotChargingState&) {};
+    RobotChargingState& operator=(const RobotChargingState&) {};
 };
 
 } // end_ns

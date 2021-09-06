@@ -15,12 +15,17 @@ namespace slamengine
 
 class RobotMotioningState : public RobotState {
 public:
-    virtual ~RobotMotioningState() {}
-
-    ERESULT startBuildMap();
-	ERESULT onNaviDone();
-    ERESULT onNaviActive();
-    ERESULT onNaviProgress();
+    static RobotState& getInstance() {
+        static RobotMotioningState instance;
+        return instance;
+    }
+ 
+    ERESULT naviDoneEvent();
+private:
+    RobotMotioningState() {};
+    virtual ~RobotMotioningState() {};
+    RobotMotioningState(const RobotMotioningState&) {};
+    RobotMotioningState& operator=(const RobotMotioningState&) {};
 };
 
 } // end_ns

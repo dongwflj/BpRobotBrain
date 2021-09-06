@@ -9,113 +9,71 @@
 #include <ros/ros.h>
 
 #include "slamengine/robot_slamengine.h"
-#include "slamengine/robot_idle_state.h"
-#include "slamengine/robot_ctrl.h"
+#include "slamengine/robot_fsm.h"
 
 namespace slamengine
 {
 
 RobotSlamEngine::RobotSlamEngine() {
-    ROS_INFO("RobotSlamEngine entry");
-    ROS_INFO("RobotSlamEngine exit");
 }
 
 RobotSlamEngine::~RobotSlamEngine() {
-    ROS_INFO("RobotSlamEngine entry");
-    delete state_; 
-    ROS_INFO("RobotSlamEngine exit");
+    ROS_INFO("~RobotSlamEngine() entry");
+    delete robotFsm_; 
+    ROS_INFO("~RobotSlamEngine() exit");
 }
 
-void RobotSlamEngine::init(IRobotCtrl& robotCtrl, IRobotObserver& robotObserver) {
-    robotCtrl_ = &robotCtrl;
-    robotObserver_ = &robotObserver;
-    transitionTo(new RobotIdleState());
-}
-
-void RobotSlamEngine::transitionTo(RobotState *state) {
-    ROS_INFO("Fsm Transition to %s", typeid(*state).name());
-    if (state_ != nullptr) {
-        delete state_;
-        state_ = nullptr;
+void RobotSlamEngine::init(IRobotCtrl& robotCtrl, IRobotEngineObserver& robotEngineObserver) {
+    ROS_INFO("RobotSlamEngine::init entry");
+    if (robotFsm_ != nullptr) {
+        ROS_ERROR("RobotSlamEngine::init re-entry");
+        return;
     }
-    state_ = state;
-    state_->set_context(this);
-    ROS_INFO("Fsm Transition exit");
-}
-
-IRobotCtrl& RobotSlamEngine::getRobotCtrl() {
-	if(robotCtrl_ == nullptr) {
-		throw std::invalid_argument("Invalid 'robotCtrl' pointer."); 
-	}
-    return *robotCtrl_;
-}
-
-IRobotObserver& RobotSlamEngine::getRobotObserver() {
-	if(robotObserver_ == nullptr) {
-		throw std::invalid_argument("Invalid 'robotObserver' pointer."); 
-	}
-    return *robotObserver_;
+    robotFsm_ = new RobotFsm();
+    if (robotFsm_ == nullptr) {
+        ROS_ERROR("RobotSlamEngine::init allocate fsm object failed");
+        throw std::runtime_error("RobotSlamEngine::init Can't allocate fsm object");
+    }
+    robotFsm_->init(robotCtrl, robotEngineObserver);
+    ROS_INFO("RobotSlamEngine::init exit");
 }
 
 ERESULT RobotSlamEngine::startBuildMap() {
     ROS_INFO("RobotSlamEngine::startBuildMap entry");
-    ERESULT res = state_->startBuildMap();
-    ROS_INFO("RobotSlamEngine::startBuildMap exit");
-    return res;
+    return robotFsm_->startBuildMap();
 }
 
 ERESULT RobotSlamEngine::stopBuildMap() {
     ROS_INFO("RobotSlamEngine::stopBuildMap entry");
-    ERESULT res = state_->stopBuildMap();
-    ROS_INFO("RobotSlamEngine::stopBuildMap exit");
-    return res;
+    return robotFsm_->stopBuildMap();
 }
 
 ERESULT RobotSlamEngine::pauseBuildMap() {
     ROS_INFO("RobotSlamEngine::pauseBuildMap entry");
-    ERESULT res = state_->pauseBuildMap();
-    ROS_INFO("RobotSlamEngine::pauseBuildMap exit");
-    return res;
+    return robotFsm_->pauseBuildMap();
 }
 
 ERESULT RobotSlamEngine::resumeBuildMap() {
     ROS_INFO("RobotSlamEngine::resumeBuildMap entry");
-    ERESULT res = state_->resumeBuildMap();
-    ROS_INFO("RobotSlamEngine::resumeBuildMap exit");
-    return res;
+    return robotFsm_->resumeBuildMap();
 }
 
-ERESULT RobotSlamEngine::StartNavi(ENAVITYPE type) {
-    ERESULT res = state_->StartNavi(type);
-    return E_OK;
-
+ERESULT RobotSlamEngine::startNavi(ENAVITYPE type) {
+    ROS_INFO("RobotSlamEngine::startNavi entry");
+    return robotFsm_->startNavi(type);
 }
-ERESULT RobotSlamEngine::StopNavi() {
+
+ERESULT RobotSlamEngine::stopNavi() {
     return E_OK;
 }
 
-ERESULT RobotSlamEngine::PauseNavi() {
+ERESULT RobotSlamEngine::pauseNavi() {
     return E_OK;
 }
 
-ERESULT RobotSlamEngine::ResumeNavi() {
+ERESULT RobotSlamEngine::resumeNavi() {
     return E_OK;
 }
 	
-ERESULT RobotSlamEngine::onNaviDone() {
-    ROS_INFO("RobotSlamEngine::onNaviDone entry");
-    return E_OK;
-}
-
-ERESULT RobotSlamEngine::onNaviActive() {
-    ROS_INFO("RobotSlamEngine::onNaviActive entry");
-    return E_OK;
-}
-
-ERESULT RobotSlamEngine::onNaviProgress() {
-    ROS_INFO("RobotSlamEngine::onNaviProgress entry");
-    return E_OK;
-}
-
 } // end_ns
 

@@ -15,9 +15,18 @@ namespace slamengine
 
 class RobotIdleState : public RobotState {
 public:
-    virtual ~RobotIdleState() {}
-
+    static RobotState& getInstance() {
+        static RobotIdleState instance;
+        return instance;
+    }
+ 
     ERESULT startBuildMap();
+    ERESULT startNavi(ENAVITYPE type);
+private:
+    RobotIdleState() {};
+    virtual ~RobotIdleState() {};
+    RobotIdleState(const RobotIdleState&) {};
+    RobotIdleState& operator=(const RobotIdleState&) {};
 };
 
 } // end_ns

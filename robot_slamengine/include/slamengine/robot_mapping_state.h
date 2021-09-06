@@ -15,12 +15,20 @@ namespace slamengine
 
 class RobotMappingState : public RobotState {
 public:
-    virtual ~RobotMappingState() {}
-
+    static RobotState& getInstance() {
+        static RobotMappingState instance;
+        return instance;
+    }
+ 
     ERESULT startBuildMap();
     ERESULT stopBuildMap();
     ERESULT pauseBuildMap();
     ERESULT resumeBuildMap();
+private:
+    RobotMappingState() {};
+    virtual ~RobotMappingState() {};
+    RobotMappingState(const RobotMappingState&) {};
+    RobotMappingState& operator=(const RobotMappingState&) {};
 };
 
 } // end_ns

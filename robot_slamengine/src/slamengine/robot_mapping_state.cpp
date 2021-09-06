@@ -25,7 +25,7 @@ ERESULT RobotMappingState::stopBuildMap() {
     ROS_INFO("RobotMappingState::stopBuildMap entry");
     // ToDo: stop map building logic
     context_->getRobotCtrl().stopBuildMap();
-    context_->transitionTo(new RobotIdleState());    
+    context_->transitionTo(RobotIdleState::getInstance());    
     ROS_INFO("RobotMappingState::stopBuildMap exit");
     return E_OK;
 }

@@ -9,15 +9,21 @@
 #define _ROBOT_SLAMENGINE_H_
 
 #include "define.h"
-#include "robot_observer.h"
-#include "robot_fsm.h"
 
 namespace slamengine
 {
-class RobotState;
 class IRobotCtrl;
+class IRobotEngineObserver;
+class RobotFsm;
 
-class RobotSlamEngine : public IRobotObserver, IRobotFsm {
+class RobotSlamEngine {
+public:
+    static RobotSlamEngine& getInstance() {
+        static RobotSlamEngine instance;
+        return instance;
+    }
+    // Must call before any func call once you get instance
+    void init(IRobotCtrl& robotCtrl, IRobotEngineObserver& robotEngineObserver);
 public:
     ERESULT startBuildMap();
     ERESULT stopBuildMap();
@@ -26,45 +32,28 @@ public:
     ERESULT saveMap();
     ERESULT loadMap(); 
 	// Navi
-    ERESULT StartNavi(ENAVITYPE type);
-    ERESULT StopNavi();
-    ERESULT PauseNavi();
-    ERESULT ResumeNavi();
+    ERESULT startNavi(ENAVITYPE type);
+    ERESULT stopNavi();
+    ERESULT pauseNavi();
+    ERESULT resumeNavi();
 	
-    ERESULT SetPose(){};
-    ERESULT SetWorldPose(){};
-    ERESULT SetRobotVelThreshold(){};
-    ERESULT Move(){};
+    ERESULT move(){};
+    ERESULT setPose(){};
+    ERESULT setWorldPose(){};
+    ERESULT setRobotVelThreshold(){};
 	//Event
-    ERESULT NotifyDropEvent(){};
-    ERESULT NotifyCollisionEvent(){};
-    ERESULT NotifyEStopEvent(){};
-    ERESULT NotifyDockStateEvent(){};
-    ERESULT NotifyChargingEvent(){};
-    ERESULT NotifyCriticalHwErrEvent(){};
-    //IRobotObserver
-    ERESULT onNaviDone();
-    ERESULT onNaviActive();
-    ERESULT onNaviProgress();
-    //IRobotFsm 
-    void transitionTo(RobotState *state); 
-    IRobotCtrl& getRobotCtrl(); 
-    IRobotObserver& getRobotObserver(); 
-public:
-    static RobotSlamEngine& getInstance() {
-        static RobotSlamEngine instance;
-        return instance;
-    }
-    // Must call before any func call once you get instance
-    void init(IRobotCtrl& robotCtrl, IRobotObserver& robotObserver);
+    ERESULT notifyDropEvent(){};
+    ERESULT notifyCollisionEvent(){};
+    ERESULT notifyEStopEvent(){};
+    ERESULT notifyDockStateEvent(){};
+    ERESULT notifyChargingEvent(){};
+    ERESULT notifyCriticalHwErrEvent(){};
 private:
     RobotSlamEngine();
     virtual ~RobotSlamEngine();
     RobotSlamEngine(const RobotSlamEngine&) {};
     RobotSlamEngine& operator=(const RobotSlamEngine&) {};
-    RobotState *state_;
-    IRobotCtrl *robotCtrl_;
-    IRobotObserver *robotObserver_;
+    RobotFsm* robotFsm_;
 };
 
 } // end_ns

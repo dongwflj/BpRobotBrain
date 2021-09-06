@@ -24,8 +24,8 @@ public:
     virtual ERESULT saveMap() = 0;
     virtual ERESULT loadMap() = 0;  
 
-    virtual ERESULT StartNavi(ENAVITYPE type) = 0;
-    virtual ERESULT StopNavi() = 0;
+    virtual ERESULT startNavi(ENAVITYPE type) = 0;
+    virtual ERESULT stopNavi() = 0;
     virtual ERESULT setObserver(IRobotObserver&) = 0;
 };
 

@@ -26,8 +26,8 @@ public:
     ERESULT saveMap();
     ERESULT loadMap();  
 
-    ERESULT StartNavi(ENAVITYPE type);
-    ERESULT StopNavi() {};
+    ERESULT startNavi(ENAVITYPE type);
+    ERESULT stopNavi() {};
 
     ERESULT setObserver(IRobotObserver&);
 private:

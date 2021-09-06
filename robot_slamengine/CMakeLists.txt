@@ -122,6 +122,7 @@ include_directories(
 ## Declare a C++ library
 add_library(robot_slamengine
    src/slamengine/robot_slamengine.cpp
+   src/slamengine/robot_fsm.cpp
    src/slamengine/robot_state.cpp
    src/slamengine/robot_idle_state.cpp
    src/slamengine/robot_mapping_state.cpp
@@ -141,7 +142,6 @@ add_library(robot_slamengine
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(${PROJECT_NAME}_node 
-    src/robot_slamengine_node.cpp
     src/NaviModule.cpp
     src/glite_ctrl.cpp
 )

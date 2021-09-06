@@ -18,7 +18,7 @@ namespace slamengine
 ERESULT RobotTeleOpingState::startBuildMap() {
     ROS_INFO("RobotTeleOpingState::startBuildMap entry");
     // Impl build map operation
-    context_->transitionTo(new RobotMappingState());    
+    context_->transitionTo(RobotMappingState::getInstance());    
     ROS_INFO("RobotTeleOpingState::startBuildMap exit");
     return E_OK;
 }

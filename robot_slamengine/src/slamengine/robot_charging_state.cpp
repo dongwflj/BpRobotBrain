@@ -18,7 +18,7 @@ namespace slamengine
 ERESULT RobotChargingState::startBuildMap() {
     ROS_INFO("RobotChargingState::startBuildMap entry");
     // Impl build map operation
-    context_->transitionTo(new RobotMappingState());    
+//    context_->transitionTo(new RobotMappingState());    
     ROS_INFO("RobotChargingState::startBuildMap exit");
     return E_OK;
 }
