@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<launch> 
+    <!-- <param name="use_sim_time" value="true" /> -->
+    <node pkg="robot_slamengine" type="robot_slamengine_node" name="robot_slamengine" respawn="true" output="screen" >
+    <!--
+        <rosparam file="$(find ginger_navigation)/params/navi/map.yaml" command="load" ns="ginger_map" />
+        <rosparam file="$(find ginger_navigation)/params/navi/navi.yaml" command="load" ns="ginger_navi" />
+    -->
+    </node>
+</launch>

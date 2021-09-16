@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<launch> 
+    <!-- <param name="use_sim_time" value="true" /> -->
+    <node pkg="patrol_navigation" type="patrol_navigation_node" name="patrol_navigation" respawn="true" output="screen" >
+    <!--
+        <rosparam file="$(find ginger_navigation)/params/navi/map.yaml" command="load" ns="ginger_map" />
+        <rosparam file="$(find ginger_navigation)/params/navi/navi.yaml" command="load" ns="ginger_navi" />
+    -->
+    </node>
+</launch>
