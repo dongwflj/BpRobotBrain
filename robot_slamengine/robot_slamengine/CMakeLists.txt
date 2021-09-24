@@ -13,7 +13,6 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
-
 find_package(BehaviorTreeV3)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -121,22 +120,23 @@ include_directories(
 
 ## Declare a C++ library
 add_library(robot_slamengine
-   src/slamengine/robot_slamengine.cpp
-   src/slamengine/robot_fsm.cpp
-   src/slamengine/robot_bt.cpp
-   src/slamengine/robot_start_build_map.cpp
-   src/slamengine/robot_state.cpp
-   src/slamengine/robot_idle_state.cpp
-   src/slamengine/robot_mapping_state.cpp
-   src/slamengine/robot_charging_state.cpp
-   src/slamengine/robot_motioning_state.cpp
-   src/slamengine/robot_motionpause_state.cpp
-   src/slamengine/robot_teleoping_state.cpp
-   src/slamengine/robot_stop_state.cpp
+   src/robot_slamengine.cpp
+   src/robot_fsm.cpp
+   src/robot_state.cpp
+   src/robot_init_state.cpp
+   src/robot_idle_state.cpp
+   src/robot_mapping_state.cpp
+   src/robot_charging_state.cpp
+   src/robot_motioning_state.cpp
+   src/robot_motionpause_state.cpp
+   src/robot_teleoping_state.cpp
+   src/robot_stop_state.cpp
+   src/bt/robot_bt.cpp
+   src/bt/robot_start_build_map.cpp
 )
 
 target_link_libraries(robot_slamengine
-    BT::behaviortree_cpp_v3
+	BT::behaviortree_cpp_v3
 )
 #############
 ## Install ##

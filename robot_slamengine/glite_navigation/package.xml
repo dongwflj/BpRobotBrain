@@ -45,8 +45,8 @@
 
   <!-- The export tag contains other, unspecified, tags -->
   <build_depend>ginger_msgs</build_depend>
-  <exec_depend>ginger_msgs</exec_depend>
   <build_depend>robot_slamengine</build_depend>
+  <exec_depend>ginger_msgs</exec_depend>
   <exec_depend>robot_slamengine</exec_depend>
 
   <export>

@@ -7,7 +7,7 @@
 #ifndef _GLITE_CTRL_H_
 #define _GLITE_CTRL_H_
 
-#include "slamengine/robot_ctrl.h"
+#include "robot_ctrl.h"
 
 namespace slamengine {
 class IRobotObserver;
@@ -19,17 +19,18 @@ using namespace slamengine;
 class PatrolCtrl : public IRobotCtrl
 {
 public:
-    ERESULT StartBuildMap(string task_id);
-    ERESULT StopBuildMap(string task_id);
-    ERESULT PauseBuildMap(string task_id);
-    ERESULT ResumeBuildMap(string task_id);
-    ERESULT SaveMap(string task_id);
-    ERESULT LoadMap(string task_id);  
+    ERESULT Init();
+    ERESULT StartBuildMap(const std::string& task_id);
+    ERESULT StopBuildMap(const std::string& task_id);
+    ERESULT PauseBuildMap(const std::string& task_id);
+    ERESULT ResumeBuildMap(const std::string& task_id);
+    ERESULT SaveMap(const std::string& task_id, const std::string& map_name);
+    ERESULT LoadMap(const std::string& task_id, const std::string& map_name);  
 
-    ERESULT StartNavi(string task_id, ENAVITYPE type, string goal_name, PixelPose goal_pose);
-    ERESULT StopNavi(string task_id) {};
+    ERESULT StartNavi(const std::string& task_id, ENAVITYPE type, const std::string& goal_name, const PixelPose& goal_pose);
+    ERESULT StopNavi(const std::string& task_id) {};
 
-    ERESULT setObserver(IRobotObserver&);
+    ERESULT SetObserver(IRobotObserver&);
 private:
     IRobotObserver *observer_;
 };
