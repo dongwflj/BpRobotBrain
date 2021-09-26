@@ -50,7 +50,7 @@ ERESULT GLiteNaviModule::OnNaviProgress(const std::string& task_id, const Pose& 
 bool GLiteNaviModule::startMappingService(ginger_msgs::StartMappingRequest& req, ginger_msgs::StartMappingResponse& res)
 {
     ROS_INFO("GLiteNaviModule: start calling mapping service");
-    ERESULT result = engine_.StartBuildMap("");
+    ERESULT result = engine_.StartBuildMap("aaa");
     res.result = result;
     
     switch(res.result){
@@ -74,6 +74,7 @@ bool GLiteNaviModule::saveMapService(ginger_msgs::SaveMapRequest &req, ginger_ms
     ERESULT result = engine_.SaveMap("", req.name);
     res.result = result;
 
+    result = engine_.StopBuildMap("aaa");
     switch(res.result){
         case E_SAVEMAP_SUCCESS:
         res.description = "Save map successfully";
@@ -190,6 +191,15 @@ bool GLiteNaviModule::naviToService(ginger_msgs::NaviToRequest &req, ginger_msgs
 }
 
 bool GLiteNaviModule::naviCmdService(ginger_msgs::NaviCmdRequest &req, ginger_msgs::NaviCmdResponse &res){
+    /// TODO: Temp, for test
+    ERESULT result = engine_.StopNavi("");
+    res.result = result;
+    switch(res.result){
+        case E_BADSTATE:
+        res.description = "Operate in bad state";
+        break;
+    }
+
     return true;
 }
 

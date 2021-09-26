@@ -132,7 +132,7 @@ add_library(robot_slamengine
    src/robot_teleoping_state.cpp
    src/robot_stop_state.cpp
    src/bt/robot_bt.cpp
-   src/bt/robot_start_build_map.cpp
+   src/bt/robot_bt_node.cpp
 )
 
 target_link_libraries(robot_slamengine

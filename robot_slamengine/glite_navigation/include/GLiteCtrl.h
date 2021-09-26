@@ -32,7 +32,7 @@ public:
     ERESULT LoadMap(const std::string& task_id, const std::string& map_name);  
 
     ERESULT StartNavi(const std::string& task_id, ENAVITYPE type, const std::string& goal_name, const PixelPose& goal_pose);
-    ERESULT StopNavi(const std::string& task_id) {};
+    ERESULT StopNavi(const std::string& task_id);
 
     ERESULT CheckPose(const std::string& poi_name, const PixelPose& poi_pose);
     ERESULT SetPixelPose(const PixelPose& pixel_pose);

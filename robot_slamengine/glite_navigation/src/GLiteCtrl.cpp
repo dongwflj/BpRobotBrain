@@ -29,6 +29,7 @@ ERESULT GliteCtrl::Init() {
 
 ERESULT GliteCtrl::StartBuildMap(const std::string& task_id) {
     ROS_INFO("GliteCtrl::startBuildMap entry");
+    ROS_INFO("GliteCtrl::startBuildMap exit");
     return E_OK;
 }
 
@@ -66,8 +67,17 @@ ERESULT GliteCtrl::LoadMap(const std::string& task_id, const std::string& map_pa
 
 ERESULT GliteCtrl::StartNavi(const std::string& task_id, ENAVITYPE type, const std::string& goal_name, const PixelPose& goal_pose){
     ROS_INFO("GliteCtrl::startNavi entry");
+    observer_->OnNaviDone(task_id, 0, "");
+    ROS_INFO("GliteCtrl::startNavi exit");
     return E_OK;
 }
+
+ERESULT GliteCtrl::StopNavi(const std::string& task_id){
+    ROS_INFO("GliteCtrl::StopNavi entry");
+    ROS_INFO("GliteCtrl::StopNavi exit");
+    return E_OK;
+}
+
 
 ERESULT GliteCtrl::SetObserver(IRobotObserver& observer) {
     observer_ = &observer;
