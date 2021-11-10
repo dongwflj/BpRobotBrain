@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>glite_navigation</name>
+  <name>bp_robot_service</name>
   <version>0.0.1</version>
-  <description>The glite_navigation package</description>
+  <description>The bp_robot_service package</description>
 
-  <maintainer email="ewen.dong@cloudminds.com">ewen</maintainer>
+  <maintainer email="dongwflj@163.com">ewen</maintainer>
 
   <license>MIT</license>
 
@@ -12,7 +12,7 @@
   <!-- Url tags are optional, but multiple are allowed, one per tag -->
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
   <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/glite_navigation</url> -->
+  <!-- <url type="website">http://wiki.ros.org/robot_service</url> -->
 
 
   <!-- Author tags are optional, multiple are allowed, one per tag -->
@@ -44,9 +44,7 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
-  <build_depend>ginger_msgs</build_depend>
   <build_depend>robot_slamengine</build_depend>
-  <exec_depend>ginger_msgs</exec_depend>
   <exec_depend>robot_slamengine</exec_depend>
 
   <export>

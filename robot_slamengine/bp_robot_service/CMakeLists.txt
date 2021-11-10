@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(glite_navigation)
+project(bp_robot_service)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
@@ -9,7 +9,6 @@ add_compile_options(-std=c++11)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
     roscpp
-    ginger_msgs
     )
 
 ## System dependencies are found with CMake's conventions
@@ -105,7 +104,6 @@ catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES glite_navigation
 #  CATKIN_DEPENDS other_catkin_pkg
-  CATKIN_DEPENDS ginger_msgs
   CATKIN_DEPENDS robot_slamengine
 )
 
@@ -130,8 +128,8 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(${PROJECT_NAME}_node 
-    src/GLiteNaviModule.cpp
-    src/GLiteCtrl.cpp
+    src/BpRobotService.cpp
+    src/BpRobotCtrl.cpp
 )
 
 ## Rename C++ executable without prefix
