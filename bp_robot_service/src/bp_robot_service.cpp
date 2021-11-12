@@ -5,12 +5,12 @@
 * author: Ewen Dong
 * Created Date: 2021-08-30
 */
-#include "bp_robot_behavior_engine.h"
-#include "BpRobotService.h"
+#include "robot_behavior_engine.h"
+#include "bp_robot_service.h"
 
 namespace bp {
 
-BpRobotService::BpRobotService():engine_(BpRobotBehaviorEngine::GetInstance())
+BpRobotService::BpRobotService():engine_(RobotBehaviorEngine::GetInstance())
 {
   ROS_INFO("BpRobotService initializing...");
   // Important init engine and ctrl interface
@@ -62,4 +62,3 @@ int main(int argc, char** argv)
     ros::waitForShutdown();
     return 0;
 }
-

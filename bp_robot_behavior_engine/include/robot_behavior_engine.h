@@ -5,8 +5,8 @@
 * author: Ewen Dong
 */
 
-#ifndef _BP_ROBOT_BEHAVIOR_ENGINE_H_
-#define _BP_ROBOT_BEHAVIOR_ENGINE_H_
+#ifndef _ROBOT_BEHAVIOR_ENGINE_H_
+#define _ROBOT_BEHAVIOR_ENGINE_H_
 
 #include <string>
 #include "define.h"
@@ -17,14 +17,14 @@ class IRobotCtrl;
 class IRobotEngineObserver;
 class RobotBt;
 
-class BpRobotBehaviorEngine {
+class RobotBehaviorEngine {
 public:
-    static BpRobotBehaviorEngine& GetInstance() {
-        static BpRobotBehaviorEngine instance;
+    static RobotBehaviorEngine& GetInstance() {
+        static RobotBehaviorEngine instance;
         return instance;
     }
     // Must call before any func call once you get instance
-    void Init(IRobotCtrl& robotCtrl, IRobotEngineObserver& robotEngineObserver);
+    ERESULT Init(IRobotCtrl& robotCtrl, IRobotEngineObserver& robotEngineObserver);
 public:
     ERESULT StartBuildMap(const std::string& task_id);
     ERESULT StopBuildMap(const std::string& task_id);
@@ -53,10 +53,10 @@ public:
     ERESULT NotifyChargingEvent(const BatteryState& state);
     ERESULT NotifyCriticalHwErrEvent();
 private:
-    BpRobotBehaviorEngine();
-    virtual ~BpRobotBehaviorEngine();
-    BpRobotBehaviorEngine(const BpRobotBehaviorEngine&) {};
-    BpRobotBehaviorEngine& operator=(const BpRobotBehaviorEngine&) {};
+    RobotBehaviorEngine();
+    virtual ~RobotBehaviorEngine();
+    RobotBehaviorEngine(const RobotBehaviorEngine&) {};
+    RobotBehaviorEngine& operator=(const RobotBehaviorEngine&) {};
     RobotBt*  robotBt_;
 };
 

@@ -15,11 +15,12 @@
 #include <std_msgs/Int32.h>
 #include <std_srvs/SetBool.h>
 #include "robot_engine_observer.h"
-#include "BpRobotCtrl.h"
+#include "bp_robot_ctrl.h"
 
 namespace bp
 {
 using RosNodeHandlePtr = std::shared_ptr<ros::NodeHandle>; 
+class BpRobotBehaviorEngine;
 
 class BpRobotService : public IRobotEngineObserver
 {
@@ -35,7 +36,7 @@ public:
 private:
     RosNodeHandlePtr module_nh_;
     BpRobotCtrl robotCtrl_;
-    BpRobotBehaviorEngine& engine_;
+    RobotBehaviorEngine& engine_;
     std::vector<ros::ServiceServer> v_servers_;
     std::vector<ros::Subscriber> v_subs_;
 };

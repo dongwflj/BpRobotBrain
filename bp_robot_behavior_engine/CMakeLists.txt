@@ -120,7 +120,7 @@ include_directories(
 
 ## Declare a C++ library
 add_library(bp_robot_behavior_engine
-   src/bp_robot_behavior_engine.cpp
+   src/robot_behavior_engine.cpp
    src/bt/robot_bt.cpp
    src/bt/robot_bt_node.cpp
 )
@@ -173,6 +173,12 @@ target_link_libraries(bp_robot_behavior_engine
 #############
 ## Testing ##
 #############
+catkin_add_gtest(${PROJECT_NAME}-test tests/test.cpp)
+if(TARGET ${PROJECT_NAME}-test)
+  target_link_libraries(${PROJECT_NAME}-test gtest_main)
+  target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES})
+endif()
+
 
 ## Add gtest based cpp test target and link libraries
 # catkin_add_gtest(${PROJECT_NAME}-test test/test_robot_slamengine.cpp)

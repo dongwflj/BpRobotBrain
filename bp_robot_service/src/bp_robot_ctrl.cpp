@@ -7,7 +7,7 @@
 */
 #include <ros/ros.h>
 
-#include "BpRobotCtrl.h"
+#include "bp_robot_ctrl.h"
 #include "robot_observer.h"
 
 namespace bp {

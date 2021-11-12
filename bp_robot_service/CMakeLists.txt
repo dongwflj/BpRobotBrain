@@ -127,8 +127,8 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(${PROJECT_NAME}_node 
-    src/BpRobotService.cpp
-    src/BpRobotCtrl.cpp
+    src/bp_robot_service.cpp
+    src/bp_robot_ctrl.cpp
 )
 
 ## Rename C++ executable without prefix
@@ -196,11 +196,14 @@ target_link_libraries(${PROJECT_NAME}_node
 ######################################################
 
 ## Add gtest based cpp test target and link libraries
-catkin_add_gtest(${PROJECT_NAME}-test tests/test.cpp)
-if(TARGET ${PROJECT_NAME}-test)
-  target_link_libraries(${PROJECT_NAME}-test gtest_main)
-  target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES})
-endif()
+catkin_add_gtest(${PROJECT_NAME}-test tests/test.cpp
+        src/bp_robot_ctrl.cpp
+)
+target_link_libraries(${PROJECT_NAME}-test 
+        ${catkin_LIBRARIES}
+        gtest_main
+        bp_robot_behavior_engine
+)
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
